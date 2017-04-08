@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,34 @@ public class MenuUI : MonoBehaviour {
             if (m_Canvases[index] == target) {
                 m_Canvases[index].SetActive(true);
             }
+        }
+    }
+
+    // Sets the current difficulty of the game when a button is pressed
+    // Creates a GameManager incase there isn't one to set the difficulty to
+    public void SetDifficulty(string difficulty) {
+        if (FindObjectOfType<GameManager>()) {
+            GameManager.Instance.CurrentDifficulty = StringToGameDifficulty(difficulty);
+        } else {
+            GameObject gameManager = new GameObject("GameManager", typeof(GameManager));
+            gameManager.GetComponent<GameManager>().CurrentDifficulty = StringToGameDifficulty(difficulty);
+        }
+    }
+
+    // Converts the incoming string input into a GameDifficulty enum
+    private GameDifficulty StringToGameDifficulty(string diff) {
+        switch (diff) {
+            case "Easy":
+                return GameDifficulty.Easy;
+            case "Medium":
+                return GameDifficulty.Medium;
+            case "Hard":
+                return GameDifficulty.Hard;
+            case "Impossible":
+                return GameDifficulty.Impossible;
+            default:
+                Debug.Log("No match.. \nDefault to easy difficulty");
+                return GameDifficulty.Easy;
         }
     }
 
