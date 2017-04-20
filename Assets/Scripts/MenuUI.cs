@@ -9,8 +9,16 @@ public class MenuUI : MonoBehaviour {
 
     public GameObject[] m_Canvases;
 
+    private GameManager m_manager;
+
+    void Awake() {
+        m_manager = FindObjectOfType<GameManager>();
+    }
+
     // Loads the next scene in the build
     public void PlayGame() {
+        m_manager.gameInit = true;
+        m_manager.StartGame = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
